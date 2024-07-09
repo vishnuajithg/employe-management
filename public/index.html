@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+</head>
+<body>
+    <h1>Submit Data</h1>
+    <form id="dataForm">
+        <label for="data">Data:</label>
+        <input type="text" id="data" name="data" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const data = document.getElementById('data').value; // Get the value from the input field
+
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type to JSON
+                },
+                body: JSON.stringify({ data: data }), // Convert the data to a JSON string
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Server response:', result);
+            } else {
+                console.error('Failed to submit data');
+            }
+        });
+    </script>
+</body>
+</html>
